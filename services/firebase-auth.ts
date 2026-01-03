@@ -59,6 +59,7 @@ const convertFirebaseUser = (firebaseUser: FirebaseUser): User => {
  */
 export const signInWithGoogle = async (): Promise<UserCredential> => {
     try {
+        if (!auth) throw new Error("Firebase Auth not initialized");
         const result = await signInWithPopup(auth, googleProvider);
         return result;
     } catch (error: any) {
@@ -73,6 +74,7 @@ export const signInWithGoogle = async (): Promise<UserCredential> => {
  */
 export const signInWithGoogleRedirect = async (): Promise<void> => {
     try {
+        if (!auth) throw new Error("Firebase Auth not initialized");
         await signInWithRedirect(auth, googleProvider);
     } catch (error: any) {
         console.error('Error signing in with Google redirect:', error);
@@ -85,6 +87,7 @@ export const signInWithGoogleRedirect = async (): Promise<void> => {
  */
 export const handleRedirectResult = async (): Promise<UserCredential | null> => {
     try {
+        if (!auth) return null;
         const result = await getRedirectResult(auth);
         return result;
     } catch (error: any) {
@@ -101,6 +104,7 @@ export const signInWithEmail = async (
     password: string
 ): Promise<UserCredential> => {
     try {
+        if (!auth) throw new Error("Firebase Auth not initialized");
         const result = await signInWithEmailAndPassword(auth, email, password);
         return result;
     } catch (error: any) {
@@ -118,6 +122,7 @@ export const registerWithEmail = async (
     displayName?: string
 ): Promise<UserCredential> => {
     try {
+        if (!auth) throw new Error("Firebase Auth not initialized");
         const result = await createUserWithEmailAndPassword(auth, email, password);
 
         // Update profile with display name if provided
@@ -137,6 +142,7 @@ export const registerWithEmail = async (
  */
 export const resetPassword = async (email: string): Promise<void> => {
     try {
+        if (!auth) throw new Error("Firebase Auth not initialized");
         await sendPasswordResetEmail(auth, email);
     } catch (error: any) {
         console.error('Error sending password reset email:', error);
@@ -152,7 +158,7 @@ export const updateUserProfile = async (updates: {
     photoURL?: string;
 }): Promise<void> => {
     try {
-        if (!auth.currentUser) {
+        if (!auth || !auth.currentUser) {
             throw new Error('No user is currently signed in');
         }
         await updateProfile(auth.currentUser, updates);
@@ -167,6 +173,7 @@ export const updateUserProfile = async (updates: {
  */
 export const logout = async (): Promise<void> => {
     try {
+        if (!auth) return;
         await signOut(auth);
     } catch (error: any) {
         console.error('Error signing out:', error);
@@ -179,7 +186,7 @@ export const logout = async (): Promise<void> => {
  */
 export const deleteCurrentUser = async (): Promise<void> => {
     try {
-        if (!auth.currentUser) {
+        if (!auth || !auth.currentUser) {
             throw new Error('No user is currently signed in');
         }
         await deleteUser(auth.currentUser);
@@ -193,6 +200,7 @@ export const deleteCurrentUser = async (): Promise<void> => {
  * Get the current user
  */
 export const getCurrentUser = (): User | null => {
+    if (!auth) return null;
     const user = auth.currentUser;
     return user ? convertFirebaseUser(user) : null;
 };
@@ -209,6 +217,7 @@ export const getAuthInstance = () => auth;
 export const onAuthStateChange = (
     callback: (user: User | null) => void
 ): (() => void) => {
+    if (!auth) return () => { };
     return onAuthStateChanged(auth, (firebaseUser) => {
         const user = firebaseUser ? convertFirebaseUser(firebaseUser) : null;
         callback(user);
@@ -221,7 +230,7 @@ export const onAuthStateChange = (
  */
 export const getIdToken = async (forceRefresh = false): Promise<string | null> => {
     try {
-        if (!auth.currentUser) {
+        if (!auth || !auth.currentUser) {
             return null;
         }
         return await auth.currentUser.getIdToken(forceRefresh);

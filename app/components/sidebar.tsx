@@ -25,9 +25,11 @@ import {
   Globe,
   Moon,
   Sun,
+  LogIn,
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
+import { useAuthContext } from "@/app/components/auth-provider"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -52,6 +54,7 @@ export function Sidebar({ isOpen = true, onClose, className }: SidebarProps) {
   const [isMobile, setIsMobile] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const { user, logout } = useAuthContext()
 
   useEffect(() => {
     setMounted(true)
@@ -221,25 +224,42 @@ export function Sidebar({ isOpen = true, onClose, className }: SidebarProps) {
             <div className="border-t border-sidebar-border p-4">
               <div className="flex items-center gap-3 mb-3 p-2 rounded-xl hover:bg-sidebar-accent transition-colors cursor-pointer">
                 <Avatar className="h-10 w-10 bg-sidebar-primary shadow-sm">
-                  <AvatarFallback className="text-sm font-semibold text-sidebar-primary-foreground bg-transparent">GV</AvatarFallback>
+                  <AvatarFallback className="text-sm font-semibold text-sidebar-primary-foreground bg-transparent">
+                    {user?.displayName ? user.displayName.substring(0, 2).toUpperCase() : "GU"}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold text-sidebar-foreground">GVK</div>
-                  <div className="text-xs text-muted-foreground truncate">venkatakousikse01@gmail...</div>
+                  <div className="text-sm font-semibold text-sidebar-foreground">
+                    {user?.displayName || "Guest User"}
+                  </div>
+                  <div className="text-xs text-muted-foreground truncate">
+                    {user?.email || "guest@indexa.ai"}
+                  </div>
                 </div>
               </div>
-              <Link
-                href="/sign-in"
-                onClick={() => {
-                  if (isMobile && onClose) {
-                    onClose()
-                  }
-                }}
-                className="flex items-center gap-2 px-2 py-2 text-sm text-sidebar-foreground hover:text-sidebar-primary rounded-lg hover:bg-sidebar-accent transition-colors"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Link>
+              {user ? (
+                <button
+                  onClick={() => {
+                    logout()
+                    if (isMobile && onClose) onClose()
+                  }}
+                  className="flex w-full items-center gap-2 px-2 py-2 text-sm text-sidebar-foreground hover:text-sidebar-primary rounded-lg hover:bg-sidebar-accent transition-colors"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </button>
+              ) : (
+                <Link
+                  href="/sign-in"
+                  onClick={() => {
+                    if (isMobile && onClose) onClose()
+                  }}
+                  className="flex items-center gap-2 px-2 py-2 text-sm text-sidebar-foreground hover:text-sidebar-primary rounded-lg hover:bg-sidebar-accent transition-colors"
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span>Sign In</span>
+                </Link>
+              )}
             </div>
           </>
         )}
@@ -261,15 +281,27 @@ export function Sidebar({ isOpen = true, onClose, className }: SidebarProps) {
             </button>
 
             <Avatar className="h-10 w-10 bg-sidebar-primary shadow-sm mx-auto mb-3 cursor-pointer">
-              <AvatarFallback className="text-sm font-semibold text-sidebar-primary-foreground bg-transparent">GV</AvatarFallback>
+              <AvatarFallback className="text-sm font-semibold text-sidebar-primary-foreground bg-transparent">
+                {user?.displayName ? user.displayName.substring(0, 2).toUpperCase() : "GU"}
+              </AvatarFallback>
             </Avatar>
-            <Link
-              href="/sign-in"
-              className="flex items-center justify-center p-2 text-sm text-sidebar-foreground hover:text-sidebar-primary rounded-lg hover:bg-sidebar-accent transition-colors"
-              title="Sign Out"
-            >
-              <LogOut className="h-4 w-4" />
-            </Link>
+            {user ? (
+              <button
+                onClick={() => logout()}
+                className="flex items-center justify-center p-2 text-sm text-sidebar-foreground hover:text-sidebar-primary rounded-lg hover:bg-sidebar-accent transition-colors w-full"
+                title="Sign Out"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            ) : (
+              <Link
+                href="/sign-in"
+                className="flex items-center justify-center p-2 text-sm text-sidebar-foreground hover:text-sidebar-primary rounded-lg hover:bg-sidebar-accent transition-colors"
+                title="Sign In"
+              >
+                <LogIn className="h-4 w-4" />
+              </Link>
+            )}
           </div>
         )}
       </div>

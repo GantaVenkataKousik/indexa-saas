@@ -20,7 +20,7 @@ export default function DashboardLayout({
       <Button
         variant="outline"
         size="sm"
-        className="fixed top-4 left-4 z-60 lg:hidden bg-white border-gray-200 shadow-sm"
+        className="fixed top-4 left-4 z-50 lg:hidden bg-white border-gray-200 shadow-sm"
         onClick={() => setSidebarOpen(true)}
       >
         <Menu className="h-4 w-4" />

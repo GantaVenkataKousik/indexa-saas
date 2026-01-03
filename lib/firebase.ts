@@ -15,10 +15,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase - prevent multiple instances
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+const app = getApps().length === 0 && process.env.NEXT_PUBLIC_FIREBASE_API_KEY
+    ? initializeApp(firebaseConfig)
+    : (getApps().length > 0 ? getApp() : undefined);
 
 // Initialize Firebase services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const auth = app ? getAuth(app) : undefined;
+export const db = app ? getFirestore(app) : undefined;
 
 export default app;
