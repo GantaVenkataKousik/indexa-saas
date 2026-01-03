@@ -78,13 +78,13 @@ export default function ResearchPage() {
 
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Keyword Research</h1>
                     <p className="text-muted-foreground">Discover topics to improve your AI visibility.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleExport} className="cursor-pointer">
+                    <Button variant="outline" onClick={handleExport} className="cursor-pointer w-full sm:w-auto">
                         <Download className="mr-2 h-4 w-4" /> Export
                     </Button>
                 </div>
@@ -95,7 +95,7 @@ export default function ResearchPage() {
                     <CardTitle>Topic Discovery</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex gap-4 mb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input

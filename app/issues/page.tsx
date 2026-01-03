@@ -111,14 +111,14 @@ export default function IssuesPage() {
 
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Issues & Fixes</h1>
                     <p className="text-muted-foreground">Identify and resolve visibility blockers.</p>
                 </div>
                 <Button
                     variant="outline"
-                    className="cursor-pointer"
+                    className="cursor-pointer w-full sm:w-auto"
                     onClick={() => alert("🔄 Running full site scan...\n\n• Crawl analysis\n• Schema validation\n• Link checking\n• Performance audit\n• Indexing status\n• AI readability")}
                 >
                     Run Full Scan

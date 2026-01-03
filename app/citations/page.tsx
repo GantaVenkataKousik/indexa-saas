@@ -64,12 +64,12 @@ export default function CitationsPage() {
 
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">AI Citations</h1>
                     <p className="text-muted-foreground">Track where and how AI models are citing your brand.</p>
                 </div>
-                <Button onClick={handleRunScan} disabled={scanning} className="cursor-pointer">
+                <Button onClick={handleRunScan} disabled={scanning} className="cursor-pointer w-full sm:w-auto">
                     <Search className="mr-2 h-4 w-4" /> {scanning ? 'Scanning...' : 'Run Scan'}
                 </Button>
             </div>

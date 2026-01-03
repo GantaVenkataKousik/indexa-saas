@@ -62,12 +62,12 @@ export default function ContentPage() {
 
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Content Calendar</h1>
                     <p className="text-muted-foreground">Manage and schedule your blog posts.</p>
                 </div>
-                <Button onClick={handleCreatePost} className="cursor-pointer">
+                <Button onClick={handleCreatePost} className="cursor-pointer w-full sm:w-auto">
                     <Plus className="mr-2 h-4 w-4" /> Create Post
                 </Button>
             </div>
@@ -75,7 +75,7 @@ export default function ContentPage() {
             <div className="grid gap-4">
                 {posts.map((post) => (
                     <Card key={post.id}>
-                        <CardContent className="p-6 flex items-center justify-between">
+                        <CardContent className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div className="flex items-center gap-4">
                                 <div className="h-10 w-10 rounded-lg bg-indigo-50 flex items-center justify-center">
                                     <FileText className="h-5 w-5 text-indigo-600" />
