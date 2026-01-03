@@ -22,7 +22,7 @@ export default function SettingsPage() {
 
     return (
         <div className="p-6 space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
                     <p className="text-muted-foreground">Manage your account and preferences.</p>
@@ -30,10 +30,10 @@ export default function SettingsPage() {
             </div>
 
             <Tabs defaultValue="general" className="w-full">
-                <TabsList>
-                    <TabsTrigger value="general" className="cursor-pointer">General</TabsTrigger>
-                    <TabsTrigger value="integrations" className="cursor-pointer">Integrations</TabsTrigger>
-                    <TabsTrigger value="billing" className="cursor-pointer">Billing</TabsTrigger>
+                <TabsList className="w-full sm:w-auto flex-wrap h-auto">
+                    <TabsTrigger value="general" className="cursor-pointer flex-1 sm:flex-none">General</TabsTrigger>
+                    <TabsTrigger value="integrations" className="cursor-pointer flex-1 sm:flex-none">Integrations</TabsTrigger>
+                    <TabsTrigger value="billing" className="cursor-pointer flex-1 sm:flex-none">Billing</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="general" className="mt-6">
